@@ -271,6 +271,7 @@ import WebsiteDashboard from "./sections/WebsiteDashboard";
 import Navbar from "./sections/Navbar";
 import Home from "./Home";
 import WebsiteWithAi from "./sections/WebsiteWithAi";
+import SiteSelection from "./sections/SiteSelection";
 const App = () => {
   return (
     <Router>
@@ -283,6 +284,7 @@ const App = () => {
           <Route path="/createsite" element={<CreateWebsite />} />
           <Route path="/websitedashboard" element={<WebsiteDashboard />} />
           <Route path="/sitewithai" element={<WebsiteWithAi />} />
+          <Route path="/update" element={<SiteSelection />} />
           {/* </Route> */}
           {/* Add more routes here as needed */}
         </Routes>
