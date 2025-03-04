@@ -117,7 +117,6 @@
 
 // export default CreateWebsite;
 
-
 // import { useEffect, useState } from 'react'
 // import { Button } from "@/components/ui/button"
 // import { Input } from "@/components/ui/input"
@@ -145,14 +144,14 @@
 //       console.error('No email found in local storage');
 //       return;
 //     }
-  
+
 //     setLoading(true);
 //     try {
 //       const response = await fetch(`http://localhost:8000/user-sites/${email}`, {
 //         method: 'GET',
 //         headers: { 'Content-Type': 'application/json' }
 //       });
-  
+
 //       if (response.ok) {
 //         const data = await response.json();
 //         setWebsites(data);
@@ -333,7 +332,6 @@
 // import Template2Fields from './TemplateDataInputs/Template2Fields';
 // import Template3Fields from './TemplateDataInputs/Template3Fields';
 
-
 // const CreateWebsite = () => {
 //   const [isLoading, setIsLoading] = useState(false);
 //   const [formData, setFormData] = useState({
@@ -502,12 +500,25 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { useState } from "react";
 import Template1Fields from "./TemplateDataInputs/Template1Fields";
 import Template2Fields from "./TemplateDataInputs/Template2Fields";
 import Template3Fields from "./TemplateDataInputs/Template3Fields";
+import AiChatComponent from "./AiChatComponent";
 
 const CreateWebsite = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -517,7 +528,7 @@ const CreateWebsite = () => {
     sectionTitle: "",
     subTitle: "",
     description: "",
-    customData: {} 
+    customData: {},
   });
   const [step, setStep] = useState(1);
 
@@ -528,25 +539,23 @@ const CreateWebsite = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-  
+
     setFormData((prev) => {
       // Check if the field is part of the standard form data
       if (name in prev) {
         return { ...prev, [name]: value };
       }
       // If not, add it to customData
-      return { 
-        ...prev, 
-        customData: { 
-          ...prev.customData, 
-          [name]: value 
-        } 
+      return {
+        ...prev,
+        customData: {
+          ...prev.customData,
+          [name]: value,
+        },
       };
     });
   };
-  
 
-  
   const handleTemplateChange = (value) => {
     setFormData((prev) => ({ ...prev, templateName: value }));
     setStep(1); // Reset step when template changes
@@ -555,7 +564,7 @@ const CreateWebsite = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    console.log(formData)
+    console.log(formData);
     try {
       const response = await fetch("http://localhost:8000/generate-sites", {
         method: "POST",
@@ -564,8 +573,8 @@ const CreateWebsite = () => {
           username: formData.username,
           templateName: formData.templateName,
           userId: localStorage.getItem("email"),
-          siteData: formData
-        })
+          siteData: formData,
+        }),
       });
 
       if (response.ok) {
@@ -591,7 +600,7 @@ const CreateWebsite = () => {
       templateName: "t1",
       sectionTitle: "",
       subTitle: "",
-      description: ""
+      description: "",
     });
     setStep(1);
   };
@@ -602,7 +611,10 @@ const CreateWebsite = () => {
         return (
           <div className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="username" className="text-sm font-medium text-gray-300">
+              <Label
+                htmlFor="username"
+                className="text-sm font-medium text-gray-300"
+              >
                 Username
               </Label>
               <Input
@@ -616,7 +628,10 @@ const CreateWebsite = () => {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="template" className="text-sm font-medium text-gray-300">
+              <Label
+                htmlFor="template"
+                className="text-sm font-medium text-gray-300"
+              >
                 Template
               </Label>
               <Select
@@ -685,7 +700,9 @@ const CreateWebsite = () => {
     <div className="min-h-screen bg-zinc-950 text-white flex items-center justify-center p-4">
       <Card className="w-full max-w-2xl mx-auto bg-zinc-950 border-gray-800">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold text-white">Create a New Website</CardTitle>
+          <CardTitle className="text-2xl font-bold text-white">
+            Create a New Website
+          </CardTitle>
           <CardDescription className="text-gray-400">
             Fill out the form below to generate your custom website.
           </CardDescription>
@@ -696,6 +713,7 @@ const CreateWebsite = () => {
           </form>
         </CardContent>
       </Card>
+      <AiChatComponent></AiChatComponent>
     </div>
   );
 };

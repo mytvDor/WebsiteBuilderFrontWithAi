@@ -262,7 +262,7 @@
 
 // export default App;
 // /App.jsx
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Auth from "./Auth";
 import AdminDashboard from "./sections/AdminDashboard";
