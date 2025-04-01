@@ -1730,7 +1730,7 @@ const WebsiteDashboard = () => {
               <Button
                 variant="outline"
                 onClick={() => setDeleteSiteId(null)}
-                className="border-zinc-700 text-zinc-300 hover:bg-zinc-800 hover:text-white transition-colors"
+                className="border-zinc-700 text-zinc-900 hover:bg-zinc-800 hover:text-white transition-colors"
               >
                 Cancel
               </Button>

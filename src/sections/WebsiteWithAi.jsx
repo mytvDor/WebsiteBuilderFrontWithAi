@@ -1413,7 +1413,7 @@ export default function WebsiteWithAi() {
       setCode({
         "index.html": data.html || "",
         "style.css": data.css || "",
-        "script.js": data.javascript || "",
+        "script.js": data.javascript || data.js || "",
       });
       setActiveFile("index.html");
       setOutput("Code generated successfully.");

@@ -566,6 +566,7 @@ const CreateWebsite = () => {
     setIsLoading(true);
     console.log(formData);
     try {
+      console.log(localStorage.getItem("email"));
       const response = await fetch("http://localhost:8000/generate-sites", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
