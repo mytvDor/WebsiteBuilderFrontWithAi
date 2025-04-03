@@ -264,14 +264,14 @@
 // /App.jsx
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Auth from "./Auth";
-import AdminDashboard from "./sections/AdminDashboard";
-import CreateWebsite from "./sections/CreateWebsite";
-import WebsiteDashboard from "./sections/WebsiteDashboard";
+import Auth from "./Auth/Auth";
+import AdminDashboard from "./sections/dashboard/AdminDashboard";
+import CreateWebsite from "./sections/TemplateComponents/CreateSite/CreateWebsite";
+import WebsiteDashboard from "./sections/dashboard/WebsiteDashboard";
 import Navbar from "./sections/Navbar";
-import Home from "./Home";
-import WebsiteWithAi from "./sections/WebsiteWithAi";
-import SiteSelection from "./sections/SiteSelection";
+import Home from "./Home/Home";
+import WebsiteWithAi from "./sections/Ai_Components/WebsiteWithAi";
+import SiteSelection from "./sections/TemplateComponents/UpdateSite/SiteSelection";
 const App = () => {
   return (
     <Router>

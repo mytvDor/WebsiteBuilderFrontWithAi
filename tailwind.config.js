@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-    darkMode: 'class',
+    darkMode: ['class', 'class'],
     content: [
     "./index.html",
     "./src/**/*.{js,jsx,ts,tsx}", // Adjust the path as necessary
@@ -70,11 +70,23 @@ module.exports = {
   				to: {
   					height: '0'
   				}
+  			},
+  			shine: {
+  				'0%': {
+  					'background-position': '0% 0%'
+  				},
+  				'50%': {
+  					'background-position': '100% 100%'
+  				},
+  				to: {
+  					'background-position': '0% 0%'
+  				}
   			}
   		},
   		animation: {
   			'accordion-down': 'accordion-down 0.2s ease-out',
-  			'accordion-up': 'accordion-up 0.2s ease-out'
+  			'accordion-up': 'accordion-up 0.2s ease-out',
+  			shine: 'shine var(--duration) infinite linear'
   		}
   	}
   },
