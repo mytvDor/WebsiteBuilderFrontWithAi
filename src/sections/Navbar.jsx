@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   NavigationMenu,
   NavigationMenuList,
@@ -10,15 +10,26 @@ import {
 
 export default function Navbar() {
   const location = useLocation();
+  const navigate = useNavigate();
   const [currentPath, setCurrentPath] = useState("/");
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
 
   useEffect(() => {
     setCurrentPath(location.pathname);
+    const token = localStorage.getItem("token");
+    const email = localStorage.getItem("email");
+    setIsAuthenticated(!!token && !!email);
   }, [location]);
 
-  const isActive = (path) => {
-    return currentPath === path;
+  const handleSignOut = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("email");
+    setIsAuthenticated(false);
+    navigate("/auth");
   };
+
+  const isActive = (path) => currentPath === path;
 
   const getNavLinkClass = (path) => {
     const baseClasses =
@@ -39,7 +50,6 @@ export default function Navbar() {
 
   return (
     <header className="flex h-14 w-full shrink-0 items-center px-4 md:px-6 justify-between">
-      {/* Website Logo and Name on the left */}
       <div className="flex items-center">
         <Link to="/" prefetch="false" className="flex items-center">
           <MountainIcon className="h-6 w-6 mr-2" />
@@ -47,24 +57,20 @@ export default function Navbar() {
         </Link>
       </div>
 
-      {/* Desktop Navigation - Center */}
       <NavigationMenu className="hidden lg:flex mx-auto">
         <NavigationMenuList>
           <NavigationMenuLink asChild>
-            <Link
-              to="/createsite"
-              className={getNavLinkClass("/createsite")}
-              prefetch="false"
-            >
+            <Link to="/" className={getNavLinkClass("/")} prefetch="false">
+              Home
+            </Link>
+          </NavigationMenuLink>
+          <NavigationMenuLink asChild>
+            <Link to="/createsite" className={getNavLinkClass("/createsite")}>
               Create
             </Link>
           </NavigationMenuLink>
           <NavigationMenuLink asChild>
-            <Link
-              to="/update"
-              className={getNavLinkClass("/update")}
-              prefetch="false"
-            >
+            <Link to="/update" className={getNavLinkClass("/update")}>
               Update
             </Link>
           </NavigationMenuLink>
@@ -72,104 +78,122 @@ export default function Navbar() {
             <Link
               to="/websitedashboard"
               className={getNavLinkClass("/websitedashboard")}
-              prefetch="false"
             >
               Dashboard
             </Link>
           </NavigationMenuLink>
-
           <NavigationMenuLink asChild>
-            <Link
-              to="/sitewithai"
-              className={getNavLinkClass("/sitewithai")}
-              prefetch="false"
-            >
+            <Link to="/sitewithai" className={getNavLinkClass("/sitewithai")}>
               Ai
             </Link>
           </NavigationMenuLink>
-
           <NavigationMenuLink asChild>
-            <Link
-              to="/services"
-              className={getNavLinkClass("/services")}
-              prefetch="false"
-            >
+            <Link to="/services" className={getNavLinkClass("/services")}>
               Services
             </Link>
           </NavigationMenuLink>
-
           <NavigationMenuLink asChild>
-            <Link
-              to="/contact"
-              className={getNavLinkClass("/contact")}
-              prefetch="false"
-            >
+            <Link to="/contact" className={getNavLinkClass("/contact")}>
               Contact
             </Link>
+          </NavigationMenuLink>
+
+          <NavigationMenuLink>
+            {" "}
+            {isAuthenticated && (
+              <Button
+                variant="outline"
+                size="sm"
+                className=" text-red-500 border-2px border-red-500 hover:bg-red-500 hover:text-white"
+                onClick={handleSignOut}
+              >
+                Logout
+              </Button>
+            )}
           </NavigationMenuLink>
         </NavigationMenuList>
       </NavigationMenu>
 
-      {/* Mobile Menu - Right Side */}
-      <Sheet>
-        <SheetTrigger asChild>
-          <Button variant="outline" size="icon" className="lg:hidden">
-            <MenuIcon className="h-6 w-6" />
-            <span className="sr-only">Toggle navigation menu</span>
-          </Button>
-        </SheetTrigger>
-        <SheetContent side="right">
-          <div className="flex items-center mb-6">
-            <MountainIcon className="h-6 w-6 mr-2" />
-            <span className="font-bold text-lg">WebCraft</span>
-          </div>
-          <div className="grid gap-2 py-6">
-            <Link
-              to="/createsite"
-              className={getMobileLinkClass("/createsite")}
-              prefetch="false"
-            >
-              Create
-            </Link>
-            <Link
-              to="/update"
-              className={getMobileLinkClass("/update")}
-              prefetch="false"
-            >
-              Update
-            </Link>
-            <Link
-              to="/websitedashboard"
-              className={getMobileLinkClass("/websitedashboard")}
-              prefetch="false"
-            >
-              Dashboard
-            </Link>
-            <Link
-              to="/sitewithai"
-              className={getMobileLinkClass("/sitewithai")}
-              prefetch="false"
-            >
-              Ai
-            </Link>
-            <Link
-              to="/services"
-              className={getMobileLinkClass("/services")}
-              prefetch="false"
-            >
-              Services
-            </Link>
-
-            <Link
-              to="/contact"
-              className={getMobileLinkClass("/contact")}
-              prefetch="false"
-            >
-              Contact
-            </Link>
-          </div>
-        </SheetContent>
-      </Sheet>
+      {/* Right Side (Logout) */}
+      <div className="flex gap-2 items-center ">
+        <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+          <SheetTrigger asChild>
+            <Button variant="outline" size="icon" className="lg:hidden">
+              <MenuIcon className="h-6 w-6" />
+              <span className="sr-only">Toggle navigation menu</span>
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="right">
+            <div className="flex items-center mb-6">
+              <MountainIcon className="h-6 w-6 mr-2" />
+              <span className="font-bold text-lg">WebCraft</span>
+            </div>
+            <div className="grid gap-2 py-6">
+              <Link
+                to="/"
+                className={getMobileLinkClass("/")}
+                onClick={() => setIsSheetOpen(false)}
+              >
+                Home
+              </Link>
+              <Link
+                to="/createsite"
+                className={getMobileLinkClass("/createsite")}
+                onClick={() => setIsSheetOpen(false)}
+              >
+                Create
+              </Link>
+              <Link
+                to="/update"
+                className={getMobileLinkClass("/update")}
+                onClick={() => setIsSheetOpen(false)}
+              >
+                Update
+              </Link>
+              <Link
+                to="/websitedashboard"
+                className={getMobileLinkClass("/websitedashboard")}
+                onClick={() => setIsSheetOpen(false)}
+              >
+                Dashboard
+              </Link>
+              <Link
+                to="/sitewithai"
+                className={getMobileLinkClass("/sitewithai")}
+                onClick={() => setIsSheetOpen(false)}
+              >
+                Ai
+              </Link>
+              <Link
+                to="/services"
+                className={getMobileLinkClass("/services")}
+                onClick={() => setIsSheetOpen(false)}
+              >
+                Services
+              </Link>
+              <Link
+                to="/contact"
+                className={getMobileLinkClass("/contact")}
+                onClick={() => setIsSheetOpen(false)}
+              >
+                Contact
+              </Link>
+              {isAuthenticated && (
+                <Button
+                  variant="outline"
+                  className="text-red-500 border-2px border-red-500 hover:bg-red-500 hover:text-white"
+                  onClick={() => {
+                    handleSignOut();
+                    setIsSheetOpen(false);
+                  }}
+                >
+                  Logout
+                </Button>
+              )}
+            </div>
+          </SheetContent>
+        </Sheet>
+      </div>
     </header>
   );
 }

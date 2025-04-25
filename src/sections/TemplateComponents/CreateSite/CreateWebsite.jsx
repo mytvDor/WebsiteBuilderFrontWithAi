@@ -147,7 +147,7 @@ const CreateWebsite = () => {
                   <SelectValue placeholder="Select a template" />
                 </SelectTrigger>
                 <SelectContent className="bg-zinc-900 text-white border-gray-700">
-                  <SelectItem value="t1">Template 1</SelectItem>
+                  {/* <SelectItem value="t1">Template 1</SelectItem> */}
                   <SelectItem value="t2">Cafe Website</SelectItem>
                   <SelectItem value="t3">Gym Website</SelectItem>
                 </SelectContent>
